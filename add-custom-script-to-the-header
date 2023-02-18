@@ -1,0 +1,18 @@
+//add meta tag to the header
+function add_header_metadata() {
+   echo'<meta name="facebook-domain-verification" content="b2v82c1y3p97eszi2mwupezj00n0bi" />';
+   echo '<div style="display:none;><img height=0" width="0" style="border-style:none;" alt="" src="//insight.adsrvr.org/track/pxl/?adv=5jj6jkb&ct=0:1ovp7d2&fmt=3"/></div>';
+   echo '<div style="display:none;><img height="0" width="0" style="border-style:none;" alt="" src="//insight.adsrvr.org/track/pxl/?adv=5jj6jkb&ct=0:y9s8tuw&fmt=3"/></div>';
+
+   //to be organized later after the benchmark this for GA
+   echo '<script async src="https://www.googletagmanager.com/gtag/js?id=UA-230619294-1"></script>';
+   echo "<script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'UA-230619294-1');
+        </script>";
+}
+
+add_action( 'wp_head', 'add_header_metadata' );
