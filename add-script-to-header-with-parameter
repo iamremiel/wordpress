@@ -1,0 +1,78 @@
+//add script to the header
+add_action("wp_enqueue_scripts", "added_scripts_to_the_header");
+function added_scripts_to_the_header()
+{
+    //outbrain script
+    wp_enqueue_script(
+        "outbrain",
+        get_stylesheet_directory_uri() . "/assets/js/outbrain.js"
+    );
+    //trust pilot
+    wp_enqueue_script(
+        "trust-pilot",
+        "https://widget.trustpilot.com/bootstrap/v5/tp.widget.bootstrap.min.js"
+    );
+    //exclude thank you page
+    if(!is_page(577810)){
+    //Hivewyre Tracking - Shopper Tag
+    wp_enqueue_script(
+        "hivewyre",
+        "https://js.b1js.com/tagcontainer.js?id=4d4688c64c884f4cbe1af9f40406d6e5&type=1&onload=false",
+        "","",true
+    );
+    }
+    //My account page only
+    if(is_page(43)){
+    //DP My Account Pages
+    wp_enqueue_script(
+        "my-account",
+         get_stylesheet_directory_uri() . "/assets/js/my_account.js"
+    );
+    wp_enqueue_style(
+        "my-account",
+         get_stylesheet_directory_uri() . "/assets/css/my_account.css"
+    );
+    }
+    //Klaviyo
+    wp_enqueue_script(
+        "klaviyo",
+        "https://static.klaviyo.com/onsite/js/klaviyo.js?company_id=RZQFAg"
+    );
+
+
+    wp_script_add_data("outbrain", "html_attrs", [
+        /*  'async'          => 'async',
+         'defer'          => true,*/
+        "data-obct" => "true",
+    ]);
+    wp_script_add_data("trust-pilot", "html_attrs", [
+        "async" => "async",
+    ]);
+    wp_script_add_data("klaviyo", "html_attrs", [
+        "async" => "async",
+    ]);
+}
+
+//Custom JS handler
+add_filter("script_loader_tag", "my_filter_script_loader_tag", 10, 2);
+function my_filter_script_loader_tag($tag, $handle)
+{
+    $attrs = wp_scripts()->get_data($handle, "html_attrs");
+
+    // Bail if the script doesn't have any registered custom HTML attrs.
+    if (empty($attrs) || !is_array($attrs)) {
+        return $tag;
+    }
+
+    $dom = new DOMDocument();
+
+    //$tag = mb_convert_encoding( $tag, 'HTML-ENTITIES', 'UTF-8' );
+    $dom->loadHTML($tag, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+
+    $node = $dom->getElementsByTagName("script")[0];
+    foreach ($attrs as $key => $value) {
+        $node->setAttribute($key, $value);
+    }
+
+    return $dom->saveHTML();
+}
