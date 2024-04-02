@@ -1,0 +1,44 @@
+<?php
+                  //lets order programatically for the sake of testing the messages
+                    $order = wc_create_order();
+
+                    // add products
+                    $order->add_product( wc_get_product( 64630 ), 2 );
+                    $order->add_product( wc_get_product( 15676 ) );
+
+   /*                 // add shipping
+                    $shipping = new WC_Order_Item_Shipping();
+                    $shipping->set_method_title( 'Free shipping' );
+                    $shipping->set_method_id( 'free_shipping:1' ); // set an existing Shipping method ID
+                    $shipping->set_total( 0 ); // optional
+                    $order->add_item( $shipping );*/
+
+                    // add billing and shipping addresses
+                    $address = array(
+                        'first_name' => 'Rem',
+                        'last_name'  => 'Mori',
+                        'company'    => 'sample',
+                        'email'      => 'rem@avamia.com',
+                        'phone'      => '123456789',
+                        'address_1'  => 'Sample Address',
+                        'address_2'  => '',
+                        'city'       => 'Sample',
+                        'state'      => '',
+                        'postcode'   => '0108',
+                        'country'    => 'US'
+                    );
+
+                    $order->set_address( $address, 'billing' );
+                    $order->set_address( $address, 'shipping' );
+
+                    // add payment method
+                    $order->set_payment_method( 'stripe' );
+                    $order->set_payment_method_title( 'Credit/Debit card' );
+
+                    // order status
+                    $order->set_status( 'wc-processing', 'Order is created programmatically for test purposes, please ignore' );
+
+                    // calculate and save
+                    $order->calculate_totals();
+                    $order->save();
+?>
