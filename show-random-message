@@ -1,0 +1,16 @@
+                   function show_random_message() {
+
+                  
+                        // Define an array of messages
+                        $messages = array(
+                            "Almost sold out - This item is selling fast!",
+                            "4.3 This item is Top Rated",
+                            $baseValue." shoppers purchased this item today."
+                        );
+
+                        // Select a random index from the array
+                        $random_index = array_rand($messages);
+
+                        // Display the message corresponding to the random index
+                        return $messages[$random_index];
+                    }
