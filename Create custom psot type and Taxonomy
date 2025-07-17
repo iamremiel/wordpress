@@ -1,0 +1,56 @@
+// Register Custom Post Type: Quiz
+function register_quiz_post_type() {
+    $labels = array(
+        'name' => 'Quizzes',
+        'singular_name' => 'Quiz',
+        'menu_name' => 'Quizzes',
+        'name_admin_bar' => 'Quiz',
+        'add_new' => 'Add New Quiz',
+        'add_new_item' => 'Add New Quiz',
+        'edit_item' => 'Edit Quiz',
+        'new_item' => 'New Quiz',
+        'view_item' => 'View Quiz',
+        'all_items' => 'All Quizzes',
+        'search_items' => 'Search Quizzes',
+        'not_found' => 'No quizzes found',
+    );
+
+    $args = array(
+        'labels' => $labels,
+        'public' => true,
+        'has_archive' => true,
+        'rewrite' => array('slug' => 'quiz'),
+        'supports' => array('title', 'editor', 'custom-fields'),
+        'show_in_rest' => true,
+        'menu_icon' => 'dashicons-welcome-learn-more',
+    );
+
+    register_post_type('quiz', $args);
+}
+add_action('init', 'register_quiz_post_type');
+
+// Register Custom Taxonomy: Quiz Category
+function register_quiz_taxonomy() {
+    $labels = array(
+        'name' => 'Quiz Categories',
+        'singular_name' => 'Quiz Category',
+        'search_items' => 'Search Quiz Categories',
+        'all_items' => 'All Quiz Categories',
+        'edit_item' => 'Edit Quiz Category',
+        'update_item' => 'Update Quiz Category',
+        'add_new_item' => 'Add New Quiz Category',
+        'new_item_name' => 'New Quiz Category Name',
+        'menu_name' => 'Quiz Categories',
+    );
+
+    $args = array(
+        'hierarchical' => true,
+        'labels' => $labels,
+        'show_ui' => true,
+        'show_in_rest' => true,
+        'rewrite' => array('slug' => 'quiz-category'),
+    );
+
+    register_taxonomy('quiz_category', array('quiz'), $args);
+}
+add_action('init', 'register_quiz_taxonomy');
